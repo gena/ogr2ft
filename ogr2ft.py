@@ -95,8 +95,6 @@ def copy_features(src_layer, dst_layer, fix_geometry, simplify_geometry, start_i
 
         index = index + 1
 
-    print('Finished {0} {1}'.format(start_index, total))
-
 def _get_ft_ds():
     refresh_token = OAuth2().get_refresh_token()
     ft_driver = ogr.GetDriverByName('GFT')
@@ -143,6 +141,11 @@ def convert(input_file, output_fusion_table, add_missing=False):
     # copy features, retry during crashes
     fix_geometry = True
     simplify_geometry = False
+
+    # re-open source layer, otherwise src_layer.GetFeature(1) seems to ifluence iterator in copy_features ?!?
+    src_ds.Destroy()
+    src_ds = ogr.Open(input_file)
+    src_layer = src_ds.GetLayerByIndex(0)
 
     total = src_layer.GetFeatureCount()
 
