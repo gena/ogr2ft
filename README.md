@@ -71,8 +71,8 @@ Inserted 8800 of 9420 features (93.42%)
 Inserted 9200 of 9420 features (97.66%)
 Inserted 9400 of 9420 features (99.79%)
 Inserted 9420 of 9420 features (100.00%).
-Finished
 ```
 
 ### Known Issues
-* Inserted row messages (batches of 200 features) seems to repeat, but the final table looks ok.
+* Inserted row messages prints the same message from time to time, it looks like previous transaction is still busy 
+  while new inserts occur. The final table seems to be ok.
