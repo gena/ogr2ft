@@ -83,21 +83,19 @@ def copy_features(src_layer, dst_layer, fix_geometry, simplify_geometry, start_i
 
         index_batch = index_batch + 1
 
-        if index_batch >= batch_size:
+        if index_batch >= batch_size or index == total - 1:
             dst_layer.CommitTransaction()
             count = dst_layer.GetFeatureCount() # update number of inserted features
             print('Inserted {0} of {1} features ({2:.2f}%)'.format(count, total, 100. * float(count) / total))
 
             index_batch = 0
 
+            if index == total - 1:
+                break
+
         index = index + 1
 
-    if index_batch > 0:
-        dst_layer.CommitTransaction()
-        time.sleep(2)
-        count = dst_layer.GetFeatureCount() # update number of inserted features
-        print('Inserted {0} of {1} features ({2:.2f}%).'.format(count, total, 100. * float(count) / total))
-        print('Finished')
+    print('Finished {0} {1}'.format(start_index, total))
 
 def _get_ft_ds():
     refresh_token = OAuth2().get_refresh_token()
