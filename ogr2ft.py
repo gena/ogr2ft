@@ -134,7 +134,10 @@ def convert(input_file, output_fusion_table, add_missing=False):
 
         # create new layer and copy schema
         dst_layer = dst_ds.CreateLayer(output_fusion_table)
-        f = src_layer.GetFeature(1)
+        if '.kml' in input_file:  
+            f = src_layer.GetFeature(1) # bug?
+        else:
+            f = src_layer.GetFeature(0)
         [dst_layer.CreateField(f.GetFieldDefnRef(i)) for i in range(f.GetFieldCount())]
         is_new = True
 
